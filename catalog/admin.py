@@ -9,6 +9,7 @@ from catalog.models import Category,Product
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display =( 'name',)
+    list_filter = ('name',)
 
 @admin.register(Product)
 class CategoryAdmin(admin.ModelAdmin):
