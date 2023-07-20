@@ -36,7 +36,7 @@ def product(request):
         'object_list': product_list,
         'title': 'Товары'
     }
-    return render(request, 'catalog/product.html', context)
+    return render(request, 'catalog/home.html', context)
 
 def card(request,pk):
     context={
