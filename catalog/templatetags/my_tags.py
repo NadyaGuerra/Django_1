@@ -1,5 +1,5 @@
 from django import template
-
+from config import settings
 register = template.Library()
 
 
@@ -11,7 +11,14 @@ def media_path(data):
 
 
 
-@register.filter
+# @register.filter
+# def media_path(value):
+#     # if value:
+#     return '/media/' + str(value)
+
+
+@register.filter(name='media_path')
 def media_path(value):
-    # if value:
-    return '/media/' + str(value)
+    if value:
+        return f"{settings.MEDIA_URL}{value}"
+    return "No image yet"
