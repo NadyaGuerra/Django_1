@@ -22,7 +22,7 @@
     </header>
 
 
-    <div class="card" style="width: 45rem;">
+    <div class="product_detail" style="width: 45rem;">
         {% for object in object_list %}
         <img src="{{ object.preview|media_path }}" class="card-img-top">
         <div class="card-body">
@@ -36,3 +36,4 @@
 </div>
 
 {% endblock %}
+

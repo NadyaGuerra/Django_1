@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+{% extends 'catalog/includes/inc_catalog_menu.html' %}
+
+
+
+{% block content %}
+<div class="col-12">
+  <div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+          <form method="post", enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if object %}
+            <button type="submit" class="btn btn-primary">Изменить</button>
+            {% else %}
+            <button type="submit" class="btn btn-primary">Создать</button>
+            {% endif %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
