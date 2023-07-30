@@ -1,29 +1,37 @@
-{% extends "catalog/base.html" %}
-{% block title %} Blog {% endblock title %}
+{% extends 'catalog/base.html' %}
 {% block content %}
 {% load my_tags %}
 
+
+
 <div class="col-12 mb-5">
-    <a class="btn btn-outline-primary" href="{% url 'create_blog' %}">Добавить блоговую запись</a>
+    <a class="btn btn-outline-primary" href="{% url 'blog:create' %}">Добавить запись</a>
 </div>
-
-
-<div style="margin-left:50px" class="row mt-3">
+<div class="row text-center">
     {% for object in object_list %}
-    <div class="col-5">
-        <div class="card">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <img src="{{ object.image|media_path }}" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5><p class="card-title"> {{ object.title }} </p></h5>
-
-                <p>{{ object.content|truncatechars:100 }}</p>
+                <h5 class="card-title">{{ object.title }}</h5>
+                <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
                 <div class="row">
-                    <div class="col-3">
-                        <a href="{% url 'view_blog' object.slug %}" class="btn btn-outline-secondary">View</a>
+                    <div class="col">
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <a href="{% url 'blog:view' object.pk %}" class="btn btn-outline-secondary border-1">Просмотр
+                            </a>
+                            <a href="{% url 'blog:edit' object.pk %}" class="btn btn-outline-secondary border-1">Именить
+                            </a>
+                            <a href="{% url 'blog:delete' object.pk %}" class="btn btn-outline-secondary border-1">Удалить
+                            </a>
+                        </div>
                     </div>
-                </div>
+
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
-{% endblock content %}
+{% endblock %}

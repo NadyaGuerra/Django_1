@@ -7,7 +7,7 @@ class Blog(models.Model):
     text = models.TextField(verbose_name='Содержимое')
     image = models.ImageField(verbose_name='Изображение', upload_to='blog/', **NULLABLE)
     creation_date = models.DateField(auto_now=True, auto_now_add=False, verbose_name='дата создания')
-    is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
+    published = models.BooleanField(default=True, verbose_name='Опубликовано')
     view_count = models.IntegerField(default=0, verbose_name='Количество просмотров')
 
     def __str__(self):
