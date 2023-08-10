@@ -5,7 +5,7 @@
 {% load static %}
 
 
- <html lang="en">
+  <html lang="en">
  <head>
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,15 +25,17 @@
              <h3 class="card-title">{{ object.price }}</h3>
              <p class="card-text">{{ object.description }}</p>
              <a href="#" class="btn btn-primary">Купить</a>
+             <a href="{% url 'version' object.pk%}" type="button" class="w-100 btn btn-lg btn-outline-primary">Версии продукта</a>
+
+
+
 
          </div>
          </body>
      </header>
 
-
-
-
  {% endblock %}
+
 
 
 

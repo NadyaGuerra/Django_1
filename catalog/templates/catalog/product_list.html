@@ -36,9 +36,13 @@
                     <li>{{ object.description|slice:100 }}</li>
                 </ul>
                 <a href="{% url 'card' object.pk %}" type="button" class="w-100 btn btn-lg btn-outline-primary">Info</a>
+                <a href="{% url 'update_product' object.pk %}" type="button" class="w-100 btn btn-lg btn-outline-primary">Edit</a>
+                <a href="{% url 'version' object.pk%}" type="button" class="w-100 btn btn-lg btn-outline-primary">Version</a>
             </div>
         </div>
     </div>
+
     {% endfor %}
 </div>
 {% endblock %}
+

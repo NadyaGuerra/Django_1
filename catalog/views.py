@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
-
-
+from django.urls import reverse_lazy,reverse
+from django.forms import inlineformset_factory
+from catalog.forms import ProductForm
 from catalog.models import Product
 from django.views.generic import ListView,DetailView,UpdateView,CreateView,DeleteView
-
+from catalog.models import Version
+from catalog.forms import ProductForm,VersionForm
 
 # def home(request):
 #     product_list=Product.objects.all()
@@ -13,12 +14,12 @@ from django.views.generic import ListView,DetailView,UpdateView,CreateView,Delet
 #         'title': 'Каталог'
 #     }
 #
-#     return render(request, 'catalog/home_list.html', context)
+#     return render(request, 'catalog/product_list.html', context)
 
-class HomeListView(ListView):
+class ProductListView(ListView):
     model = Product
-    template_name = 'catalog/home_list.html'
-    success_url = reverse_lazy('home_list')
+    # template_name = 'catalog/product_list.html'
+    # success_url = reverse_lazy('product_list')
 
 
 def contacts(request):
@@ -41,10 +42,10 @@ def contacts(request):
 #         'object_list': product_list,
 #         'title': 'Товары'
 #     }
-#     return render(request, 'catalog/home_list.html', context)
+#     return render(request, 'catalog/product_list.html', context)
 # class ProductListView(ListView):
 #     model = Product
-#     template_name = 'catalog/home_list.html'
+#     template_name = 'catalog/product_list.html'
 
 
 
@@ -57,14 +58,71 @@ class ProductDetailView(DetailView):
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ('name', 'description', 'price', 'category', 'image')
-    success_url = reverse_lazy('product_details')
+    form_class = ProductForm
+    # fields = ('name', 'description', 'price', 'category', 'image')
+    success_url = reverse_lazy('product_list')
+
+    # def get_context_data(self, **kwargs):
+    #     context_data = super().get_context_data(**kwargs)
+    #     VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+    #     if self.request.method == 'POST':
+    #         context_data['formset'] = VersionFormset(self.request.POST)
+    #     else:
+    #         context_data['formset'] = VersionFormset()
+    #     return context_data
+
+    # def form_valid(self, form):
+    #     formset = self.get_context_data()['formset']
+    #     self.object = form.save()
+    #     if formset.is_valid():
+    #         formset.instance = self.object
+    #         formset.save()
+    #     return super().form_valid(form)
 
 class ProductUpdateView(UpdateView):
     model = Product
-    fields=('name','description','preview','price')
+    #fields=('name','description','preview','price')
+    form_class = ProductForm
+    success_url = reverse_lazy('product_list')
 
+    def get_context_data(self, **kwargs):
+        context_data=super().get_context_data()
+        VersionFormset = inlineformset_factory(Product, Version, VersionForm, extra=1)
+        if self.request.method == 'POST':
+            context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
+        else:
+            context_data['formset'] = VersionFormset(instance=self.object)
+        return context_data
+
+    def form_valid(self, form):
+        formset = self.get_context_data()['formset']
+        self.object = form.save()
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+        return super().form_valid(form)
+
+
+    def get_success_url(self):
+        return reverse('card', args=[self.kwargs.get('pk')])
 
 class ProductDeleteView(DeleteView):
     model = Product
-    success_url = reverse_lazy('products_list')
+    success_url = reverse_lazy('product_list')
+
+
+class VersionListView(ListView):
+    model = Version
+
+    def get_queryset(self, *args, **kwargs):
+
+        product_pk = self.kwargs.get('pk')
+        return Version.objects.filter(is_active=True, product_id=product_pk)
+
+    def get_context_data(self, *args, object_list=None, **kwargs):
+
+        product = Product.objects.get(pk=self.kwargs.get('pk'))
+        context = super().get_context_data(*args, **kwargs)
+        context['product_name'] = product.name
+        context['pk'] = product.pk
+        return context
