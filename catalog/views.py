@@ -6,7 +6,7 @@ from catalog.models import Product
 from django.views.generic import ListView,DetailView,UpdateView,CreateView,DeleteView
 from catalog.models import Version
 from catalog.forms import ProductForm,VersionForm
-
+from catalog.services import get_cashed_categories
 # def home(request):
 #     product_list=Product.objects.all()
 #     context = {
@@ -126,3 +126,8 @@ class VersionListView(ListView):
         context['product_name'] = product.name
         context['pk'] = product.pk
         return context
+
+def categories_list(request):
+    catetegories=get_cashed_categories()
+    context={'object_list': catetegories,}
+    return render(request, 'catalog/categories.html',context)

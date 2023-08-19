@@ -5,36 +5,35 @@
 {% load static %}
 
 
-  <html lang="en">
- <head>
-     <meta charset="utf-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <title>{{ title }}</title>
-     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
- </head>
-       <body>
- <title>{{ object.name|title }} - информация о товаре </title>
- {% endfor %}
- <div class="container py-3">
-     <header>
-         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-             <h1 class="display-3 fw-normal text-body-emphasis">Информация о товаре</h1>
-             <div class="card" style="width: 45rem;">
-             <img src="{{ object.preview|media_path }}" class="card-img-top">
-                 <h2 class="card-title">{{ object.name|title }}</h2>
-             <h3 class="card-title">{{ object.price }}</h3>
-             <p class="card-text">{{ object.description }}</p>
-             <a href="#" class="btn btn-primary">Купить</a>
-             <a href="{% url 'version' object.pk%}" type="button" class="w-100 btn btn-lg btn-outline-primary">Версии продукта</a>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<title>{{ object.name|title }} - информация о товаре </title>
+{% endfor %}
+<div class="container py-3">
+    <header>
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-3 fw-normal text-body-emphasis">Информация о товаре</h1>
+            <div class="card" style="width: 45rem;">
+                <img src="{{ object.preview|media_path }}" class="card-img-top">
+                <h2 class="card-title">{{ object.name|title }}</h2>
+                <h3 class="card-title">{{ object.price }}</h3>
+                <p class="card-text">{{ object.description }}</p>
+                <a href="#" class="btn btn-primary">Купить</a>
+                <a href="{% url 'version' object.pk%}" type="button" class="w-100 btn btn-lg btn-outline-primary">Версии
+                    продукта</a>
 
 
+            </div>
+</body>
+</header>
 
-
-         </div>
-         </body>
-     </header>
-
- {% endblock %}
+{% endblock %}
 
 
 
